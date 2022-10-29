@@ -59,3 +59,14 @@ def opt_image(img, optimizer, fmax, logname, n):
     f.close()
     dyn = optimizer(img)
     dyn.run(fmax=fmax)
+
+def setup_next_img(images, final_img, stepsize, calc_fn, logname):
+    next_img = get_next_img(images[-1], final_img, stepsize, calc_fn)
+    cont_bool = nearly_same_posns(next_img.get_positions(), final_img.get_positions(), stepsize)
+    if cont_bool:
+        images.append(next_img)
+    else:
+        f = open(logname, 'a')
+        f.write(ctime() + ': ' + 'Next image will be too similar to given final, breaking \n')
+        f.close()
+    return cont_bool
