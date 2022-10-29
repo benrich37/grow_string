@@ -45,7 +45,7 @@ def grow_string(initial_img, final_img, fmax=0.1, stepsize=0.05, calc_fn=new_cal
         except Exception as e:
             write_error_to_log(logname, n, e)
         write_img(cur_img, n)
-        continuing = setup_next_img(images, final_img, stepsize, new_calc, logname)
+        continuing = setup_next_img(images, final_img, stepsize, calc_fn, logname)
     f = open(logname, 'a')
     f.write(ctime() + ': ' + 'Normal Termination \n')
     f.close()
