@@ -44,3 +44,11 @@ def start_log_file(logname):
     f = open(logname, 'w')
     f.write(ctime() + ": Beggining string growth: \n \n")
     f.close()
+
+def write_error_to_log(logname, n, e):
+    f = open(logname, 'a')
+    f.write(ctime() + ': ' + 'Error encountered on image ' + str(n) + '\n')
+    f.write(str(e) + '\n')
+
+def write_img(img, n):
+    write(img_dirname + img_prefix + str(n) + img_suffix, img)

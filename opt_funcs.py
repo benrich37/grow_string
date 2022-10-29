@@ -1,5 +1,6 @@
 import numpy as np
 from ase.constraints import FixedMode
+from time import ctime
 
 def two_pt_tangent(cur_img, final_img):
     return final_img.get_positions() - cur_img.get_positions()
@@ -44,13 +45,17 @@ def set_constrain_tangent(last_img, cur_img, final_img):
     c = FixedMode(con_tan)
     cur_img.set_constraint(c)
 
-def get_next_img(last_img, final_img, stepsize):
+def get_next_img(last_img, final_img, stepsize, calc_fn):
     cur_img = last_img.copy()
     dir_vec = normalize_vecs_as_set(two_pt_tangent(cur_img, final_img))
     add_vec_to_posns(cur_img, dir_vec*stepsize)
     set_constrain_tangent(last_img, cur_img, final_img)
+    cur_img.set_calculator(calc_fn())
     return cur_img
 
-def opt_image(img, optimizer, fmax):
+def opt_image(img, optimizer, fmax, logname, n):
+    f = open(logname, 'a')
+    f.write(ctime() + ': ' + 'optimizing image ' + str(n) + '\n')
+    f.close()
     dyn = optimizer(img)
     dyn.run(fmax=fmax)
