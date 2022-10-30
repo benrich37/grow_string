@@ -23,11 +23,14 @@ def three_pt_tangent(rA, rO, rB):
     sum3 = -(ab/(a_len + b_len))
     return sum1 + sum2 + sum3
 
-def nearly_same_posns(posns1, posns2, cutoff):
+def nearly_same_posns(posns1, posns2, stepsize):
     return_bool = True
     for i in range(len(posns1)):
-        next_bool = abs(np.linalg.norm(posns1[i] - posns2[i])) < cutoff
-        return_bool *= next_bool
+        # True -> position overlapping with final image
+        # False -> position far away
+        next_bool = abs(np.linalg.norm(posns1[i] - posns2[i])) < stepsize
+        # If atleast one atom is far away, return_bool is set to false
+        return_bool = return_bool and next_bool
     return_bool = bool(return_bool)
     return return_bool
 
@@ -62,7 +65,7 @@ def opt_image(img, optimizer, fmax, logname, n):
 
 def setup_next_img(images, final_img, stepsize, calc_fn, logname):
     next_img = get_next_img(images[-1], final_img, stepsize, calc_fn)
-    cont_bool = nearly_same_posns(next_img.get_positions(), final_img.get_positions(), stepsize)
+    cont_bool = not nearly_same_posns(next_img.get_positions(), final_img.get_positions(), stepsize)
     if cont_bool:
         images.append(next_img)
     else:
