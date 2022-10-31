@@ -45,13 +45,19 @@ def set_constrain_tangent(last_img, cur_img, final_img):
         cur_img.get_positions(),
         final_img.get_positions()
     )
+    print('printing constraint vector')
+    print(con_tan)
     c = FixedMode(con_tan)
     cur_img.set_constraint(c)
 
 def get_next_img(last_img, final_img, stepsize, calc_fn):
     cur_img = last_img.copy()
     dir_vec = normalize_vecs_as_set(two_pt_tangent(cur_img, final_img))
+    print('print dir_vec')
+    print(dir_vec)
     add_vec_to_posns(cur_img, dir_vec*stepsize)
+    print('printing new coordinates')
+    print(cur_img.get_positions())
     set_constrain_tangent(last_img, cur_img, final_img)
     cur_img.set_calculator(calc_fn())
     return cur_img
