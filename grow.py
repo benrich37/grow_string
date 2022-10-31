@@ -27,7 +27,7 @@ def grow_string(initial_img, final_img, fmax=0.1, stepsize=0.05, calc_fn=new_cal
     images = setup_img_dir(initial_img)
     continuing = setup_next_img(images, final_img, stepsize, new_calc, logname)
     while continuing:
-        n = len(images)
+        n = len(images) - 1
         cur_img = images[-1]
         try:
             opt_image(cur_img, optimizer, fmax, logname, n)
