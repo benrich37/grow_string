@@ -49,6 +49,10 @@ def get_modes(img, fname='img_'):
     vib = Vibrations(img)
     vib.run()
     write_pickle(vib, fname + "vib.pkl")
+    vibs = vib.get_vibrations()
+    write_pickle(vib, fname + "vibs.pkl")
+
+
 
 
 
