@@ -2,6 +2,23 @@ import numpy as np
 from ase.constraints import FixedMode
 from time import ctime
 
+def get_bond_vec(img, i, j):
+    posns = img.get_positions()
+    vec = posns[j] - posns[i]
+    return vec
+
+def get_bond_length(img, i, j):
+    vec = get_bond_vec(img, i, j)
+    return np.linalg.norm(vec)
+
+def change_bond_length(img, i, j, l):
+    vec = get_bond_vec(img, i, j)
+    vec2 = (l/np.linalg.norm(vec))*vec
+    posns = img.get_positions()
+    posn_j = posns[i] + vec2
+    posns[j] = posn_j
+    img.set_positions(posns)
+
 def two_pt_tangent(cur_img, final_img):
     return final_img.get_positions() - cur_img.get_positions()
 
