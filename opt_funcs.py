@@ -15,12 +15,13 @@ def three_pt_tangent(rA, rO, rB):
     # Normals and Curvatures" - Anoshkina et al
     a = rO-rA
     a_len = np.linalg.norm(a)
-    b = rB - rO
+    b = rB-rO
     b_len = np.linalg.norm(b)
     ab = rB - rA
     sum1 = b/b_len
     sum2 = a/a_len
     sum3 = -(ab/(a_len + b_len))
+    # sum3 = -(ab / (np.linalg.norm(ab)))
     return sum1 + sum2 + sum3
 
 def nearly_same_posns(posns1, posns2, stepsize):

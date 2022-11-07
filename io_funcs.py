@@ -52,3 +52,8 @@ def write_error_to_log(logname, n, e):
 
 def write_img(img, n):
     write(img_dirname + img_prefix + str(n) + img_suffix, img)
+
+import pickle
+def write_pickle(obj, fname):
+    with open(fname, 'wb') as f:
+        pickle.dump(obj, f)

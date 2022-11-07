@@ -10,6 +10,7 @@ import copy
 from io_funcs import setup_img_dir, write_error_to_log, write_img
 from opt_funcs import opt_image, get_next_img, nearly_same_posns, setup_next_img
 
+
 def new_calc():
     calculator = JDFTx(
             pseudoSet='SG15',
@@ -38,4 +39,18 @@ def grow_string(initial_img, final_img, fmax=0.1, stepsize=0.05, calc_fn=new_cal
     f = open(logname, 'a')
     f.write(ctime() + ': ' + 'Normal Termination \n')
     f.close()
+
+from io_funcs import write_pickle
+from ase.vibrations import Vibrations
+def get_modes(img, fname='img_'):
+    img.set_calculator(new_calc())
+    BFGS(img).run(fmax=0.01)
+    write_pickle(img, fname + "opt.pkl")
+    vib = Vibrations(img)
+    vib.run()
+    write_pickle(vib, fname + "vib.pkl")
+
+
+
+
 
